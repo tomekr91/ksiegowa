@@ -2,6 +2,8 @@ import java.util.ArrayList;
 
 public class User {
     private String name;
+    private int ID;
+    private static int nextID = 1;
     private ArrayList<Cost> carCosts = new ArrayList<>();
     private ArrayList<Cost> noCarCosts = new ArrayList<>();
     private ArrayList<Income> incomes = new ArrayList<>();
@@ -10,18 +12,28 @@ public class User {
     private TAX tax = new TAX();
     private boolean isLinear;
 
+    public User(){}
+
     public User(String name, boolean isLinear){
-        this.name = name;
+        this(name);
         this.isLinear = isLinear;
     }
 
-    public double getVAT(){
-        return this.vat.calculateVAT(this.incomes, this.carCosts, this.noCarCosts);
+    public User(String name){
+        this.name = name;
+        this.ID = nextID;
+        nextID ++;
+    }
+
+    public void calculateVAT(){
+        double toPayVAT = this.vat.calculateVAT(this.incomes, this.carCosts, this.noCarCosts);
+        System.out.printf("VAT do zapłaty: %.2f\n", toPayVAT);
     }
 
 
-    public double getIncomeTax(){
-        return this.tax.calculateTax(this.incomes, this.carCosts, this.noCarCosts, this.zus, this.isLinear);
+    public void calculateTax(){
+        double toPayTAX = this.tax.calculateTax(this.incomes, this.carCosts, this.noCarCosts, this.zus, this.isLinear);
+        System.out.printf("Podatek do zapłaty: %.2f\n", toPayTAX);
     }
 
     public void addCost(String name, double value, boolean isCarExpense){
@@ -62,8 +74,11 @@ public class User {
         System.out.println("===================================");
     }
 
-    public ArrayList<Income> getIncomes() {
-        return incomes;
+    public void getIncomes() {
+        System.out.println("Przychody");
+        for(Income i : this.incomes){
+            System.out.println(i.getName()+"  "+i.getValue());
+        }
     }
 
     public ArrayList<ZUS> getZus() {
@@ -72,5 +87,9 @@ public class User {
 
     public boolean isLinear() {
         return isLinear;
+    }
+
+    public int getID() {
+        return ID;
     }
 }

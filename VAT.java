@@ -18,12 +18,4 @@ public class VAT {
         this.toPay = this.total - this.toDeduct;
         return this.toPay;
     }
-
-    public double getToPay() {
-        return toPay;
-    }
-
-    public void setToPay(double toPay) {
-        this.toPay = toPay;
-    }
 }

@@ -10,4 +10,8 @@ public class Income {
     public double getValue() {
         return value;
     }
+
+    public String getName() {
+        return name;
+    }
 }
