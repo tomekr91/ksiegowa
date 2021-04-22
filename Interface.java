@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -16,7 +15,7 @@ public class Interface {
         Pattern pattern1 = Pattern.compile("[1234]");
         Pattern pattern2 = Pattern.compile("[12]");
         Pattern pattern3 = Pattern.compile("[1-9]?[1-9]");
-        Pattern pattern4 = Pattern.compile("[1-6]");
+        Pattern pattern4 = Pattern.compile("[1-9]");
         Pattern pattern5 = Pattern.compile("[0-9]{0,9}\\.?[0-9]{0,2}");
         System.out.println("Program księgowa");
         System.out.println("========================");
@@ -32,12 +31,9 @@ public class Interface {
                 System.out.println("Wybierz ponownie");
             }
             if(chooseOption.equals("1")){
-                if(users.isArrayListUsersEmpty()){
-                    users.setUsers(new ArrayList<>());
-                }
-                System.out.println("Podaj nazwę użytkownika");
+                System.out.println("Podaj nazwę użytkownika:");
                 String name = getUserInput();
-                System.out.println("Podaj sposób rozliczania podatku. Wybierz\n1)jeśli się rozliczasz liniowo\n2)jeśli się rozliczasz progresywnie");
+                System.out.println("Podaj sposób rozliczania podatku:\n1) jeśli się rozliczasz liniowo\n2) jeśli się rozliczasz progresywnie");
                 String isLinear;
                 do{
                     isLinear = getUserInput();
@@ -62,28 +58,32 @@ public class Interface {
                 else {
                     users.getUsers();
                     do {
-                        System.out.println("Wybierz numer użytkownika");
+                        System.out.println("Wybierz numer użytkownika:");
                         chooseUser = getUserInput();
                         if(!pattern3.matcher(chooseUser).matches()){
                             System.out.println("Wybierz ponownie");
                         }
                         else if(Integer.parseInt(chooseUser) > users.getSize()){
-                            System.out.println("Nie ma takiego użytkownika. Wybierz ponownie.");
+                            System.out.println("Nie ma użytkownika o takim numerze. Wybierz ponownie.");
                         }
                         else{
-                            currentUser = users.setUser(Integer.parseInt(chooseUser));
+                            currentUser = users.chooseUser(Integer.parseInt(chooseUser));
                         }
                     }
                     while(!pattern3.matcher(chooseUser).matches()||Integer.parseInt(chooseUser) > users.getSize());
-                    users.getUser(Integer.parseInt(chooseUser));
+
                     String chooseOption2;
                     do{
+                        users.introduceUser(Integer.parseInt(chooseUser));
                         System.out.println("1) dodaj przychód");
                         System.out.println("2) dodaj koszt");
-                        System.out.println("3) sprawdź przychody");
-                        System.out.println("4) sprawdź koszty");
-                        System.out.println("5) sprawdź podatki");
-                        System.out.println("6) wróć");
+                        System.out.println("3) dodaj ZUS");
+                        System.out.println("4) sprawdź przychody");
+                        System.out.println("5) sprawdź koszty");
+                        System.out.println("6) sprawdź podatki");
+                        System.out.println("7) usuń przychód");
+                        System.out.println("8) usuń koszt");
+                        System.out.println("9) wróć");
                         chooseOption2 = getUserInput();
                         if(!pattern4.matcher(chooseOption2).matches()){
                             System.out.println("Wybierz ponownie");
@@ -116,6 +116,8 @@ public class Interface {
                             while(!pattern5.matcher(costValue).matches());
                             String isCarExpense;
                             System.out.println("Czy koszt jest związany z samochodem?");
+                            System.out.println("1) TAK");
+                            System.out.println("2) NIE");
                             do{
                                 isCarExpense = getUserInput();
                                 if(!pattern2.matcher(isCarExpense).matches()){
@@ -126,18 +128,49 @@ public class Interface {
                             currentUser.addCost(costName, Double.parseDouble(costValue), isCarExpense.equals("1"));
                         }
                         else if(chooseOption2.equals("3")){
-                            currentUser.getIncomes();
+                            String healthValue;
+                            do{
+                                System.out.println("Podaj wysokość składki zdrowotnej");
+                                healthValue = getUserInput();
+                                if(!pattern5.matcher(healthValue).matches()){
+                                    System.out.println("Podaj liczbę");
+                                }
+                            }
+                            while(!pattern5.matcher(healthValue).matches());
+                            String socialValue;
+                            System.out.println("Podaj wysokość składek społecznych");
+                            do{
+                                socialValue = getUserInput();
+                                if(!pattern5.matcher(socialValue).matches()){
+                                    System.out.println("Podaj liczbę");
+                                }
+                            }
+                            while(!pattern5.matcher(socialValue).matches());
+                            currentUser.addZUS(Double.parseDouble(healthValue), true);
+                            currentUser.addZUS(Double.parseDouble(socialValue), false);
                         }
                         else if(chooseOption2.equals("4")){
-                            currentUser.getNoCarCosts();
-                            currentUser.getCarCosts();
+                            currentUser.getIncomes();
                         }
                         else if(chooseOption2.equals("5")){
+                            currentUser.getCosts();
+                        }
+                        else if(chooseOption2.equals("6")){
                             currentUser.calculateTax();
                             currentUser.calculateVAT();
                         }
+                        else if(chooseOption2.equals("7")){
+                            System.out.println("podaj nazwę przychodu, który chcesz usunąć");
+                            String incomeName = getUserInput();
+                            currentUser.removeIncome(incomeName);
+                        }
+                        else if(chooseOption2.equals("8")){
+                            System.out.println("podaj nazwę kosztu, który chcesz usunąć");
+                            String costName = getUserInput();
+                            currentUser.removeCost(costName);
+                        }
                     }
-                    while(!chooseOption2.equals("6"));
+                    while(!chooseOption2.equals("9"));
                 }
             }
         }

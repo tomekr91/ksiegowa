@@ -40,32 +40,4 @@ public class TAX {
         }
         return this.toPay;
     }
-
-    public double getTaxBase() {
-        return taxBase;
-    }
-
-    public double getDeduction() {
-        return deduction;
-    }
-
-    public double getToPay() {
-        return toPay;
-    }
-
-    public double getTaxTreshold() {
-        return taxTreshold;
-    }
-
-    public double getLinearTaxRate() {
-        return linearTaxRate;
-    }
-
-    public double getFirstProgressiveTaxRate() {
-        return firstProgressiveTaxRate;
-    }
-
-    public double getSecondProgressiveTaxRate() {
-        return secondProgressiveTaxRate;
-    }
 }

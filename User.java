@@ -54,39 +54,46 @@ public class User {
         this.incomes.add(newIncome);
     }
 
+    public void removeIncome(String data){
+        this.incomes.removeIf(income -> income.getName().equalsIgnoreCase(data));
+    }
+
+    public void removeCost(String data){
+        this.carCosts.removeIf(cost -> cost.getName().equalsIgnoreCase(data));
+        this.noCarCosts.removeIf(cost -> cost.getName().equalsIgnoreCase(data));
+    }
+
     public String getName() {
         return name;
     }
 
-    public void getCarCosts() {
-        System.out.println("Koszty związane z obsługą samochodu");
+    public void getCosts() {
+        System.out.println("Koszty związane z obsługą samochodu:");
         for(Cost c : this.carCosts){
-            System.out.println(c.getName()+"  "+c.getValue()+"  ");
+            System.out.printf("%s\t%.2f\n",c.getName(), c.getValue());
         }
         System.out.println("===================================");
-    }
-
-    public void getNoCarCosts() {
-        System.out.println("Koszty nie związane z obsługą samochodu");
+        System.out.println("Koszty nie związane z obsługą samochodu:");
         for(Cost c : this.noCarCosts){
-            System.out.println(c.getName()+"  "+c.getValue()+"  ");
+            System.out.printf("%s\t%.2f\n",c.getName(), c.getValue());
         }
         System.out.println("===================================");
+        System.out.println("ZUS:");
+        for(ZUS z : this.zus){
+            if(z.isHealth()){
+                System.out.printf("Składka zdrowotna: %.2f\n", z.getValue());
+            }
+            else{
+                System.out.printf("Składki społeczne: %.2f\n", z.getValue());
+            }
+        }
     }
 
     public void getIncomes() {
-        System.out.println("Przychody");
+        System.out.println("Przychody:");
         for(Income i : this.incomes){
-            System.out.println(i.getName()+"  "+i.getValue());
+            System.out.printf("%s\t%.2f\n",i.getName(),i.getValue());
         }
-    }
-
-    public ArrayList<ZUS> getZus() {
-        return zus;
-    }
-
-    public boolean isLinear() {
-        return isLinear;
     }
 
     public int getID() {
