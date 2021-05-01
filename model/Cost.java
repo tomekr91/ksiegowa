@@ -1,15 +1,19 @@
+package model;
+
+import java.math.BigDecimal;
+
 public class Cost {
     private String name;
-    private double value;
+    private BigDecimal value;
     private boolean isCarExpense;
 
-    public Cost(String name, double value, boolean isCarExpense){
+    public Cost(String name, BigDecimal value, boolean isCarExpense){
         this.name = name;
         this.value = value;
         this.isCarExpense = isCarExpense;
     }
 
-    public double getValue() {
+    public BigDecimal getValue() {
         return value;
     }
 
