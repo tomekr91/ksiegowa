@@ -11,6 +11,8 @@ public class TaxCalculator {
     private VAT vat = new VAT();
 
     public BigDecimal calculateTax(ArrayList<Income> incomes, ArrayList<Cost> carCosts, ArrayList<Cost> noCarCosts, ArrayList<ZUS> zus, boolean isLinear){
+        tax.setDeduction(new BigDecimal("0"));
+        tax.setTaxBase(new BigDecimal("0"));
         for(Income i : incomes){
             tax.setTaxBase(tax.getTaxBase().add(i.getValue()));
         }
@@ -35,14 +37,15 @@ public class TaxCalculator {
         }
         else{
             int checkTaxTreshold= tax.getTaxBase().compareTo(tax.getTaxTreshold());
-            if(checkTaxTreshold == -1){
+            if(checkTaxTreshold < 0){
                 tax.setToPay(tax.getTaxBase().multiply(tax.getFirstProgressiveTaxRate()).subtract(tax.getDeduction()));
             }
             else{
                 tax.setToPay(tax.getTaxTreshold().multiply(tax.getFirstProgressiveTaxRate()).add(tax.getSecondProgressiveTaxRate().multiply(tax.getTaxBase().subtract(tax.getTaxTreshold()))).subtract(tax.getDeduction()));
                 //this.taxTreshold * this.firstProgressiveTaxRate + (this.taxBase - this.taxTreshold)*this.secondProgressiveTaxRate - this.deduction;
             }
+
         }
-        return tax.getToPay();
+        return tax.getToPay().setScale(2, RoundingMode.HALF_EVEN);
     }
 }

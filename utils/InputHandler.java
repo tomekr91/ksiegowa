@@ -11,7 +11,7 @@ public class InputHandler {
     private Pattern costPattern = Pattern.compile("[0-9]{0,9}\\.?[0-9]{0,2}");
     private Scanner in = new Scanner(System.in);
 
-    private String getUserInput(){
+    public String getUserInput(){
         return in.nextLine();
     }
 
@@ -59,5 +59,14 @@ public class InputHandler {
         }
         System.out.println("Wybierz ponownie");
         return chooseUserMenuInput();
+    }
+
+    public String costInput(){
+        String costInput = getUserInput();
+        if(costPattern.matcher(costInput).matches()){
+            return costInput;
+        }
+        System.out.println("wybierz ponownie");
+        return costInput();
     }
 }

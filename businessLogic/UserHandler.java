@@ -2,15 +2,8 @@ package businessLogic;
 
 import model.*;
 
-import java.util.Scanner;
-
 public class UserHandler {
     private UserList userList = new UserList();
-    static Scanner in = new Scanner(System.in);
-
-    static String getUserInput(){
-        return in.nextLine();
-    }
 
     public void addUser(String name, boolean isLinear){
         User newUser = new User(name, isLinear);
@@ -29,8 +22,8 @@ public class UserHandler {
         return userList.getUsers().get(index-1);
     }
 
-    public void introduceUser(int index){
-        System.out.println("Cześć " +userList.getUsers().get(index-1).getName()+"! Wybierz co chcesz zrobić:");
+    public void introduceUser(User user){
+        System.out.println("Cześć " +user.getName()+"! Wybierz co chcesz zrobić:");
     }
 
     public boolean isUserListEmpty(){

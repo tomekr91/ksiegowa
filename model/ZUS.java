@@ -1,7 +1,5 @@
 package model;
 
-import model.Cost;
-
 import java.math.BigDecimal;
 
 public class ZUS extends Cost {

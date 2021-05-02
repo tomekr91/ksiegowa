@@ -1,13 +1,11 @@
 package Application;
 
-import businessLogic.UserCostHandler;
-import businessLogic.UserHandler;
-import model.User;
-import utils.InfoPrinter;
-import utils.InputHandler;
+import businessLogic.*;
+import model.*;
+import utils.*;
 
 import java.math.BigDecimal;
-import java.util.Scanner;
+import java.math.RoundingMode;
 
 public class Application {
     User currentUser = new User();
@@ -15,15 +13,21 @@ public class Application {
     UserHandler userHandler = new UserHandler();
     InfoPrinter infoPrinter = new InfoPrinter();
     InputHandler inputHandler = new InputHandler();
-    static Scanner in = new Scanner(System.in);
 
-    static String getUserInput(){
-        return in.nextLine();
+    public void run(){
+        infoPrinter.mainMenu();
+        String chooseOption = inputHandler.chooseMenuInput();
+        if(chooseOption.equals("1")) addUser();
+        else if(chooseOption.equals("2")) showUsers();
+        else if(chooseOption.equals("3")) {
+            chooseUser();
+            runUserMenu();
+        }
     }
 
     public void addUser(){
         System.out.println("Podaj nazwę użytkownika:");
-        String name = getUserInput();
+        String name = inputHandler.getUserInput();
         System.out.println("Podaj sposób rozliczania podatku:\n1) jeśli się rozliczasz liniowo\n2) jeśli się rozliczasz progresywnie");
         boolean isLinear = inputHandler.getBooleanInput();
         userHandler.addUser(name, isLinear);
@@ -52,125 +56,83 @@ public class Application {
             }
             else{
                 currentUser = userHandler.chooseUser(Integer.parseInt(chooseUser));
-                userMenu();
+                userHandler.introduceUser(currentUser);
             }
         }
     }
 
-    public void userMenu(){
+    public void runUserMenu(){
         infoPrinter.userMenu();
         String chooseOption2 = inputHandler.chooseUserMenuInput();
-        if (chooseOption2.equals("1"));
-        if (chooseOption2.equals("2"));
-        if (chooseOption2.equals("3"));
-        if (chooseOption2.equals("4"));
-        if (chooseOption2.equals("5"));
-        if (chooseOption2.equals("6"));
-        if (chooseOption2.equals("7"));
-        if (chooseOption2.equals("8"));
+        if (chooseOption2.equals("1")) addIncome();
+        else if (chooseOption2.equals("2")) addCost();
+        else if (chooseOption2.equals("3")) addZUS();
+        else if (chooseOption2.equals("4")) getIncomes();
+        else if (chooseOption2.equals("5")) getCosts();
+        else if (chooseOption2.equals("6")) getTaxes();
+        else if (chooseOption2.equals("7")) removeIncome();
+        else if (chooseOption2.equals("8")) removeCost();
+        else if (chooseOption2.equals("9")) run();
     }
 
-    public void run(){
-        infoPrinter.mainMenu();
-        String chooseOption = inputHandler.chooseMenuInput();
-        if(chooseOption.equals("1")) addUser();
-        if(chooseOption.equals("2")) showUsers();
-        if(chooseOption.equals("3")) {
-            chooseUser();
-        }
-        /*
-        {
-                do{
-                    userHandler.introduceUser(Integer.parseInt(chooseUser));
+    public void addIncome(){
+        System.out.println("podaj nazwę przychodu");
+        String incomeName = inputHandler.getUserInput();
+        System.out.println("podaj wysokość przychodu");
+        String incomeValue = inputHandler.costInput();
+        userCostHandler.addIncome(currentUser, incomeName, new BigDecimal(incomeValue).setScale(2, RoundingMode.HALF_EVEN));
+        runUserMenu();
+    }
 
-                    chooseOption2 = getUserInput();
-                    if(!secondMenuPattern.matcher(chooseOption2).matches()){
-                        System.out.println("Wybierz ponownie");
-                    }
-                    else if(chooseOption2.equals("1")){
-                        System.out.println("podaj nazwę przychodu");
-                        String incomeName = getUserInput();
-                        String incomeValue;
-                        do{
-                            System.out.println("podaj wysokość przychodu");
-                            incomeValue = getUserInput();
-                            if(!costPattern.matcher(incomeValue).matches()){
-                                System.out.println("Podaj liczbę");
-                            }
-                        }
-                        while(!costPattern.matcher(incomeValue).matches());
-                        userCostHandler.addIncome(currentUser, incomeName, new BigDecimal(incomeValue));
-                    }
-                    else if(chooseOption2.equals("2")){
-                        System.out.println("podaj nazwę kosztu");
-                        String costName = getUserInput();
-                        String costValue;
-                        do{
-                            System.out.println("podaj wysokość kosztu");
-                            costValue = getUserInput();
-                            if(!costPattern.matcher(costValue).matches()){
-                                System.out.println("Podaj liczbę");
-                            }
-                        }
-                        while(!costPattern.matcher(costValue).matches());
-                        String isCarExpense;
-                        System.out.println("Czy koszt jest związany z samochodem?");
-                        System.out.println("1) TAK");
-                        System.out.println("2) NIE");
-                        do{
-                            isCarExpense = getUserInput();
-                            if(!booleanPattern.matcher(isCarExpense).matches()){
-                                System.out.println("Wybierz ponownie");
-                            }
-                        }
-                        while(!booleanPattern.matcher(isCarExpense).matches());
-                        userCostHandler.addCost(currentUser,costName, new BigDecimal(costValue), isCarExpense.equals("1"));
-                    }
-                    else if(chooseOption2.equals("3")){
-                        String healthValue;
-                        do{
-                            System.out.println("Podaj wysokość składki zdrowotnej");
-                            healthValue = getUserInput();
-                            if(!costPattern.matcher(healthValue).matches()){
-                                System.out.println("Podaj liczbę");
-                            }
-                        }
-                        while(!costPattern.matcher(healthValue).matches());
-                        String socialValue;
-                        System.out.println("Podaj wysokość składek społecznych");
-                        do{
-                            socialValue = getUserInput();
-                            if(!costPattern.matcher(socialValue).matches()){
-                                System.out.println("Podaj liczbę");
-                            }
-                        }
-                        while(!costPattern.matcher(socialValue).matches());
-                        userCostHandler.addZUS(currentUser, new BigDecimal(healthValue), true);
-                        userCostHandler.addZUS(currentUser, new BigDecimal(healthValue), false);
-                    }
-                    else if(chooseOption2.equals("4")){
-                        userCostHandler.getIncomes(currentUser);
-                    }
-                    else if(chooseOption2.equals("5")){
-                        userCostHandler.getCosts(currentUser);
-                    }
-                    else if(chooseOption2.equals("6")){
-                        userCostHandler.calculateTax(currentUser);
-                        userCostHandler.calculateVAT(currentUser);
-                    }
-                    else if(chooseOption2.equals("7")){
-                        System.out.println("podaj nazwę przychodu, który chcesz usunąć");
-                        String incomeName = getUserInput();
-                        userCostHandler.removeIncome(currentUser, incomeName);
-                    }
-                    else if(chooseOption2.equals("8")){
-                        System.out.println("podaj nazwę kosztu, który chcesz usunąć");
-                        String costName = getUserInput();
-                        userCostHandler.removeCost(currentUser, costName);
-                    }
-                }
-                while(!chooseOption2.equals("9"));
-            }*/
-        }
+    public void addCost(){
+        System.out.println("podaj nazwę kosztu");
+        String costName = inputHandler.getUserInput();
+        System.out.println("podaj wysokość kosztu");
+        String costValue = inputHandler.costInput();
+        System.out.println("Czy koszt jest związany z samochodem:\n1) TAK\n2) NIE");
+        boolean isCarCost = inputHandler.getBooleanInput();
+        userCostHandler.addCost(currentUser, costName, new BigDecimal(costValue).setScale(2, RoundingMode.HALF_EVEN), isCarCost);
+        runUserMenu();
+    }
+
+    public void addZUS(){
+        System.out.println("Podaj wysokość składki zdrowotnej:");
+        String healthValue = inputHandler.costInput();
+        System.out.println("Podaj wysokość składek społecznych:");
+        String socialValue = inputHandler.costInput();
+        userCostHandler.addZUS(currentUser, new BigDecimal(healthValue).setScale(2, RoundingMode.HALF_EVEN), true);
+        userCostHandler.addZUS(currentUser, new BigDecimal(socialValue).setScale(2, RoundingMode.HALF_EVEN), false);
+        runUserMenu();
+    }
+
+    public void getIncomes(){
+        userCostHandler.getIncomes(currentUser);
+        runUserMenu();
+    }
+
+    public void getCosts(){
+        userCostHandler.getCosts(currentUser);
+        runUserMenu();
+    }
+
+    public void getTaxes(){
+        userCostHandler.calculateTax(currentUser);
+        userCostHandler.calculateVAT(currentUser);
+        runUserMenu();
+    }
+
+    public void removeIncome(){
+        System.out.println("Podaj nazwę przychodu, który chcesz usunąć");
+        String incomeName = inputHandler.getUserInput();
+        userCostHandler.removeIncome(currentUser, incomeName);
+        runUserMenu();
+    }
+
+    public void removeCost(){
+        System.out.println("Podaj nazwę kosztu, który chcesz usunąć");
+        String costName = inputHandler.getUserInput();
+        userCostHandler.removeCost(currentUser, costName);
+        runUserMenu();
+    }
 
 }

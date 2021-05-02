@@ -5,8 +5,7 @@ import model.*;
 import java.math.BigDecimal;
 
 public class UserCostHandler {
-    private VatCalculator vatCalculator = new VatCalculator();
-    private TaxCalculator taxCalculator = new TaxCalculator();
+
 
     public void addCost(User user, String name, BigDecimal value, boolean isCarExpense){
         Cost newCost = new Cost(name, value, isCarExpense);
@@ -36,33 +35,31 @@ public class UserCostHandler {
     }
 
     public void calculateVAT(User user){
-        BigDecimal toPayVAT = this.vatCalculator.calculateVAT(user.getIncomes(), user.getCarCosts(), user.getNoCarCosts());
-        System.out.printf("VAT do zapłaty: %.2f\n", toPayVAT);
+        System.out.println("VAT do zapłaty: " + user.getVatCalculator().calculateVAT(user.getIncomes(), user.getCarCosts(), user.getNoCarCosts()));
     }
 
     public void calculateTax(User user){
-        BigDecimal toPayTAX = this.taxCalculator.calculateTax(user.getIncomes(), user.getCarCosts(), user.getNoCarCosts(), user.getZus(), user.isLinear());
-        System.out.printf("Podatek do zapłaty: %.2f\n", toPayTAX);
+        System.out.println("Podatek do zapłaty: " + user.getTaxCalculator().calculateTax(user.getIncomes(), user.getCarCosts(), user.getNoCarCosts(), user.getZus(), user.isLinear()));
     }
 
     public void getCosts(User user) {
         System.out.println("Koszty związane z obsługą samochodu:");
         for(Cost c : user.getCarCosts()){
-            System.out.printf("%s\t%.2f\n",c.getName(), c.getValue());
+            System.out.println(c.getName()+"\t"+c.getValue());
         }
         System.out.println("===================================");
         System.out.println("Koszty nie związane z obsługą samochodu:");
         for(Cost c : user.getNoCarCosts()){
-            System.out.printf("%s\t%.2f\n",c.getName(), c.getValue());
+            System.out.println(c.getName()+"\t"+c.getValue());
         }
         System.out.println("===================================");
         System.out.println("ZUS:");
         for(ZUS z : user.getZus()){
             if(z.isHealth()){
-                System.out.printf("Składka zdrowotna: %.2f\n", z.getValue());
+                System.out.println("Składka zdrowotna: " + z.getValue());
             }
             else{
-                System.out.printf("Składki społeczne: %.2f\n", z.getValue());
+                System.out.println("Składki społeczne: " + z.getValue());
             }
         }
     }
@@ -70,7 +67,7 @@ public class UserCostHandler {
     public void getIncomes(User user) {
         System.out.println("Przychody:");
         for(Income i : user.getIncomes()){
-            System.out.printf("%s\t%.2f\n",i.getName(),i.getValue());
+            System.out.println(i.getName()+"\t"+i.getValue());
         }
     }
 }

@@ -6,8 +6,8 @@ public class VAT {
     private BigDecimal total = new BigDecimal("0.00");
     private BigDecimal toDeduct = new BigDecimal("0.00");
     private BigDecimal toPay;
-    private BigDecimal VATRate = new BigDecimal("0.23");
-    private BigDecimal VATCarDeductLevel = new BigDecimal("0.50");
+    private final BigDecimal VATRate = new BigDecimal("0.23");
+    private final BigDecimal VATCarDeductLevel = new BigDecimal("0.50");
 
     public void setTotal(BigDecimal total) {
         this.total = total;
@@ -19,14 +19,6 @@ public class VAT {
 
     public void setToPay(BigDecimal toPay) {
         this.toPay = toPay;
-    }
-
-    public void setVATRate(BigDecimal VATRate) {
-        this.VATRate = VATRate;
-    }
-
-    public void setVATCarDeductLevel(BigDecimal VATCarDeductLevel) {
-        this.VATCarDeductLevel = VATCarDeductLevel;
     }
 
     public BigDecimal getTotal() {

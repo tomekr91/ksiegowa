@@ -1,7 +1,6 @@
 package model;
 
-
-import businessLogic.UserID;
+import businessLogic.*;
 
 import java.util.ArrayList;
 
@@ -14,6 +13,10 @@ public class User {
     private ArrayList<Cost> noCarCosts = new ArrayList<>();
     private ArrayList<Income> incomes = new ArrayList<>();
     private ArrayList<ZUS> zus = new ArrayList<>();
+    private VatCalculator vatCalculator = new VatCalculator();
+    private TaxCalculator taxCalculator = new TaxCalculator();
+
+
 
     public User(){}
 
@@ -73,5 +76,13 @@ public class User {
 
     public ArrayList<ZUS> getZus() {
         return zus;
+    }
+
+    public VatCalculator getVatCalculator() {
+        return vatCalculator;
+    }
+
+    public TaxCalculator getTaxCalculator() {
+        return taxCalculator;
     }
 }
