@@ -17,7 +17,8 @@ public class InputHandler {
 
     public String chooseMenuInput(){
         String chooseOption = getUserInput();
-        if(menuPattern.matcher(chooseOption).matches()){
+        boolean rightMenuPattern = menuPattern.matcher(chooseOption).matches();
+        if(rightMenuPattern){
             return chooseOption;
         }
         System.out.println("Wybierz ponownie");
@@ -26,26 +27,18 @@ public class InputHandler {
 
     public boolean getBooleanInput(){
         String booleanInput = getUserInput();
-        if(booleanPattern.matcher(booleanInput).matches()){
+        boolean rightBooleanPattern = booleanPattern.matcher(booleanInput).matches();
+        if(rightBooleanPattern){
             return booleanInput.equals("1");
         }
         System.out.println("Wybierz ponownie");
         return getBooleanInput();
     }
 
-//    public String chooseUserInput(){
-//        String chooseUser = getUserInput();
-//        if(!userPattern.matcher(chooseUser).matches()){
-//            System.out.println("Wybierz ponownie");
-//            chooseUserInput();
-//        }
-//        System.out.println(chooseUser);
-//        return chooseUser;
-//    }
-
     public String chooseUserInput(){
         String chooseUser = getUserInput();
-        if(userPattern.matcher(chooseUser).matches()){
+        boolean rightUserPattern = userPattern.matcher(chooseUser).matches();
+        if(rightUserPattern){
             return chooseUser;
         }
         System.out.println("Wybierz ponownie");
@@ -54,7 +47,8 @@ public class InputHandler {
 
     public String chooseUserMenuInput(){
         String chooseOption = getUserInput();
-        if(userMenuPattern.matcher(chooseOption).matches()){
+        boolean rightUserMenuPattern = userMenuPattern.matcher(chooseOption).matches();
+        if(rightUserMenuPattern){
             return chooseOption;
         }
         System.out.println("Wybierz ponownie");
@@ -63,7 +57,8 @@ public class InputHandler {
 
     public String costInput(){
         String costInput = getUserInput();
-        if(costPattern.matcher(costInput).matches()){
+        boolean rightCostPattern = costPattern.matcher(costInput).matches();
+        if(rightCostPattern){
             return costInput;
         }
         System.out.println("wybierz ponownie");

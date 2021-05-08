@@ -1,7 +1,9 @@
 package model;
 
+import lombok.Data;
 import java.math.BigDecimal;
 
+@Data
 public class Income {
     private String name;
     private BigDecimal value;
@@ -11,11 +13,4 @@ public class Income {
         this.value = value;
     }
 
-    public BigDecimal getValue() {
-        return value;
-    }
-
-    public String getName() {
-        return name;
-    }
 }

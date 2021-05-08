@@ -1,7 +1,10 @@
 package model;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 
+@Data
 public class ZUS extends Cost {
     private boolean isHealth;
 
@@ -9,9 +12,5 @@ public class ZUS extends Cost {
         super("ZUS", value, false);
         this.isHealth = isHealth;
         }
-
-    public boolean isHealth() {
-        return isHealth;
-    }
 
 }

@@ -1,10 +1,13 @@
 package businessLogic;
+
+import lombok.Data;
 import model.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 
+@Data
 public class VatCalculator {
     private VAT vat = new VAT();
 
@@ -24,11 +27,4 @@ public class VatCalculator {
         return this.vat.getToPay().setScale(2, RoundingMode.HALF_EVEN);
     }
 
-    public VAT getVat() {
-        return vat;
-    }
-
-    public void setVat(VAT vat) {
-        this.vat = vat;
-    }
 }

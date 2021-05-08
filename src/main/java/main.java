@@ -1,4 +1,4 @@
-import Application.Application;
+import application.Application;
 import utils.InfoPrinter;
 
 public class main {

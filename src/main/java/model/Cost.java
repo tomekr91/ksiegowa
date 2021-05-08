@@ -1,7 +1,11 @@
 package model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 
+@Data @NoArgsConstructor
 public class Cost {
     private String name;
     private BigDecimal value;
@@ -11,17 +15,5 @@ public class Cost {
         this.name = name;
         this.value = value;
         this.isCarExpense = isCarExpense;
-    }
-
-    public BigDecimal getValue() {
-        return value;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public boolean isCarExpense() {
-        return isCarExpense;
     }
 }
